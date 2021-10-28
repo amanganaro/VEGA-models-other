@@ -1,12 +1,11 @@
-package utils;
+package insilico.logk.utils;
 
-import insilico.core.descriptor.DescriptorBlock;
 import insilico.core.exception.GenericFailureException;
 import insilico.core.model.InsilicoModel;
 import insilico.core.model.InsilicoModelOutput;
 import insilico.core.molecule.conversion.SmilesMolecule;
+import insilico.logk.descriptors.EmbeddedDescriptors;
 import lombok.extern.slf4j.Slf4j;
-//import ModelsList;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -20,9 +19,10 @@ import java.util.List;
 @Slf4j
 public class ModelsDeployment {
 
-    public void PrintDescriptorBlock(InsilicoModel model, DescriptorBlock block){
+    public ModelsDeployment PrintDescriptor(InsilicoModel model, String filename) throws FileNotFoundException {
+
         List<String> smilesList = new ArrayList<>();
-        URL url = (getClass().getResource("/data/SQfu.csv"));
+        URL url = (getClass().getResource("/data/dataset_logk.csv"));
         StringBuilder stringBuilder = new StringBuilder("#" + "\t" + "Smiles (ionized)");
         String line;
         boolean printHeader = true;
@@ -43,38 +43,7 @@ public class ModelsDeployment {
             log.warn(ex.getMessage());
         }
 
-
-        for(String smiles: smilesList){
-            block.Calculate(SmilesMolecule.Convert(smiles));
-        }
-
-
-    }
-
-    public ModelsDeployment PrintDescriptor(InsilicoModel model) throws FileNotFoundException {
-        List<String> smilesList = new ArrayList<>();
-        URL url = (getClass().getResource("/data/SQfu.csv"));
-        StringBuilder stringBuilder = new StringBuilder("#" + "\t" + "Smiles (ionized)");
-        String line;
-        boolean printHeader = true;
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new DataInputStream(url.openStream())))){
-            while ((line = br.readLine()) != null) {
-                if(printHeader){
-                    printHeader = false;
-                    String[] lineArray = line.split("\t");
-                    for(int i = 7; i < lineArray.length; i++) {
-                        stringBuilder.append("\t").append(lineArray[i]);
-                    }
-                } else {
-                    smilesList.add(line.split("\t")[2]);
-                }
-            }
-
-        } catch (Exception ex){
-            log.warn(ex.getMessage());
-        }
-
-        PrintWriter printWriter = new PrintWriter("results.csv");
+        PrintWriter printWriter = new PrintWriter(filename + ".csv");
         printWriter.print(stringBuilder + "\n");
         printWriter.flush();
 
@@ -82,19 +51,19 @@ public class ModelsDeployment {
         try {
             int index = 1;
             for(String smiles : smilesList) {
-                log.info("Calculating #" + index);
+                System.out.println("Calculating #" + index + " - Smiles: " + smiles);
 
-//                InsilicoModelOutput modelOutput = model.Execute(SmilesMolecule.Convert(smiles));
 
                 stringBuilder = new StringBuilder(index + "\t" + smiles);
-                for(int i = 0; i < model.getDescriptorsSize(); i++){
-                    stringBuilder.append("\t").append(model.GetDescriptor(i));
-                }
+
+                EmbeddedDescriptors embeddedDescriptors = new EmbeddedDescriptors(SmilesMolecule.Convert(smiles), false);
+                for(Double descriptor : embeddedDescriptors.getDescriptors())
+                    stringBuilder.append("\t").append(descriptor);
                 printWriter.println(stringBuilder);
                 printWriter.flush();
                 index++;
             }
-        } catch (GenericFailureException ex){
+        } catch (MalformedURLException ex){
             log.warn(ex.getMessage());
         }
 
@@ -108,20 +77,20 @@ public class ModelsDeployment {
     }
 
 
-    public ModelsDeployment TestModelWithTrainingSet(InsilicoModel model) throws MalformedURLException, FileNotFoundException, GenericFailureException {
+    public ModelsDeployment TestModelWithTrainingSet(InsilicoModel model, String filename) throws MalformedURLException, FileNotFoundException, GenericFailureException {
         List<String> smilesList = new ArrayList<>();
         List<String> knimePredictionList = new ArrayList<>();
-        URL url = (getClass().getResource("/data/SQfu.csv"));
+        URL url = new URL("file:///" + System.getProperty("user.dir") + "/VegaModels-LogK/src/main/resources/data/dataset_logk.csv");
         String line;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new DataInputStream(url.openStream())))){
             br.readLine();
             while ((line = br.readLine()) != null){
-                smilesList.add(line.split("\t")[1]);
+                smilesList.add(line.split("\t")[2]);
                 knimePredictionList.add(line.split("\t")[4]);
             }
 
         } catch (Exception ex){ }
-        PrintWriter printWriter = new PrintWriter("results.csv");
+        PrintWriter printWriter = new PrintWriter( filename + ".csv");
         StringBuilder stringBuilder = new StringBuilder("Smiles" + "\t" + "Knime Prediction " + "\t" + "Prediction" + "\n");
 //        printWriter.println(stringBuilder);
         int index = 0;
