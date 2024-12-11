@@ -2,35 +2,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>VegaModels</artifactId>
         <groupId>InSilico</groupId>
+        <artifactId>VegaModels</artifactId>
         <version>0.1</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>VegaModels-TissueBloodIneris</artifactId>
-    <version>1.0.1</version>
+    <artifactId>VegaModels-ApicalCardioTox</artifactId>
 
-    <name>Adipose tissue - blood model (INERIS)</name>
-    <description>
-        Quantitative model for adipose tissue:blood partition coefficient on rat, developed by INERIS.
-    </description>
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
-
         <dependency>
-            <groupId>InSilico</groupId>
-            <artifactId>ProtoQSAR</artifactId>
-            <version>0.3</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.3</version>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>insilico</groupId>-->
-<!--            <artifactId>OperaAdapter</artifactId>-->
-<!--            <version>1.1</version>-->
-<!--        </dependency>-->
-
     </dependencies>
 
     <build>
