@@ -24,17 +24,17 @@ public class mainScriptOntoxAssay {
     public static void main(String[] args) throws Exception {
         InsilicoModel model = new ismOntoxAssay(true, null, "ACHE_ONTOX");
 
-        ModelsDeployment.BuildDataset(model, "out_ts");
-        File sourceFile = new File("out_ts/" + model.getInfo().getTrainingSetURL() + "/" + model.getInfo().getTrainingSetURL().split("/data/")[1]);
-        Path p = Paths.get("VegaModels-ONTOX-assay\\src\\main\\resources", model.getInfo().getTrainingSetURL());
-        File destinationFile = new File(p.toString());
-        try {
-            Files.move(sourceFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (Exception ex) {
-            log.warn(ex.getMessage());
-        }
-        if(1==1)
-            return;
+//        ModelsDeployment.BuildDataset(model, "out_ts");
+//        File sourceFile = new File("out_ts/" + model.getInfo().getTrainingSetURL() + "/" + model.getInfo().getTrainingSetURL().split("/data/")[1]);
+//        Path p = Paths.get("VegaModels-ONTOX-assay\\src\\main\\resources", model.getInfo().getTrainingSetURL());
+//        File destinationFile = new File(p.toString());
+//        try {
+//            Files.move(sourceFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//        } catch (Exception ex) {
+//            log.warn(ex.getMessage());
+//        }
+//        if(1==1)
+//            return;
 
 
 //        model.setSkipADandTSLoading(true);
