@@ -8,7 +8,6 @@ import insilico.core.molecule.InsilicoMolecule;
 import insilico.core.molecule.conversion.SmilesMolecule;
 import insilico.core.model.InsilicoModelOutput;
 import insilico.core.molecule.conversion.SmilesMolecule;
-import utils.ModelsDeployment;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;

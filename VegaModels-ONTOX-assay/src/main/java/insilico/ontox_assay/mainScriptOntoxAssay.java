@@ -7,8 +7,7 @@ import insilico.core.molecule.conversion.SmilesMolecule;
 import insilico.core.python.CdddDescriptors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import utils.ModelsDeployment;
-
+import insilico.core.devops.ModelsDeployment;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
