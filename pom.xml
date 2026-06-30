@@ -26,7 +26,6 @@
         <module>VegaModels-RBACerapp</module>
         <module>VegaModels-RBACompareIRFMN</module>
         <module>VegaModels-RBAIrfmn</module>
-        <module>VegaModels-SQfu</module>
         <module>VegaModels-SteroidogenesisEDScreen</module>
         <module>VegaModels-ThyroidTRAlphaNRMEA</module>
         <module>VegaModels-ThyroidTRBetaNRMEA</module>
