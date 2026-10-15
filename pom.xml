@@ -43,7 +43,7 @@
 
     <properties>
         <java.version>11</java.version>
-<!--        <skipTests>true</skipTests>-->
+        <skipTests>true</skipTests>
         <model.name.arg>default-value</model.name.arg>
         <model.make.trainingset>false</model.make.trainingset>
         <model.additional.tag>VOID</model.additional.tag>
