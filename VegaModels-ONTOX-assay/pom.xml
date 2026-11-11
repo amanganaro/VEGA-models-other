@@ -12,7 +12,7 @@
     <name>Assay (ONTOX)</name>
     <dependencies>
         <dependency>
-            <groupId>com.protoqsar</groupId>
+            <groupId>InSilico</groupId>
             <artifactId>VegaPythonEnv-Global</artifactId>
             <version>1.0.0</version>
         </dependency>
