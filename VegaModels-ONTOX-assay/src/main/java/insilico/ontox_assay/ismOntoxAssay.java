@@ -291,6 +291,19 @@ public class ismOntoxAssay extends InsilicoModelPython {
         cdddDescriptors = (CdddDescriptors) descriptorGenerator;
     }
 
+    /**
+     * Every model of this family can predict several molecules with a single execution of its Python script: the
+     * script iterates over all the rows of the input file and appends one result row per input row, preserving the
+     * order by construction.
+     * <p>
+     * This single override enables all the models of the family, because they are instances of this same class, one
+     * per tag; each instance batches its own script.
+     */
+    @Override
+    public boolean supportsBatchExecution() {
+        return true;
+    }
+
     @Override
     protected short CalculateDescriptors(DescriptorsEngine descriptorsEngine) {
         try {
