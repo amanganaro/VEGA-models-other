@@ -10,15 +10,10 @@ import insilico.core.exception.InitFailureException;
 import insilico.core.model.InsilicoModel;
 import insilico.core.model.InsilicoModelOutput;
 import insilico.core.tools.utils.ModelUtilities;
-import libpadeldescriptor.AutocorrelationDescriptor;
-import libpadeldescriptor.EStateAtomTypeDescriptor;
-import libpadeldescriptor.HalogenCountDescriptor;
-import libpadeldescriptor.TopologicalChargeDescriptor;
-import org.openscience.cdk1.qsar.IMolecularDescriptor;
-import org.openscience.cdk1.qsar.descriptors.molecular.TPSADescriptor;
 import padeladapter.PadelInterface;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -113,51 +108,21 @@ public class ismTotalHLQsarins extends InsilicoModel {
             
             Descriptors = new double[DescriptorsSize];
             
-            IMolecularDescriptor MD;
-            ArrayList<String> DescNames;
-
-            Padel.SetSMILES(CurMolecule.GetSMILES());
-
-            // nF
-            MD = new HalogenCountDescriptor();
-            DescNames = new ArrayList<>();
-            DescNames.add("nF");
-            double[] res = Padel.CalculateDescriptors(MD, DescNames);
-            Descriptors[0] = res[0]; 
-            
-            // minHsOH, gmax, SsCl, minsCl
-            MD = new EStateAtomTypeDescriptor();
-            DescNames = new ArrayList<>();
-            DescNames.add("minHsOH");
-            DescNames.add("gmax");
-            DescNames.add("SsCl");
-            DescNames.add("minsCl");
-            res = Padel.CalculateDescriptors(MD, DescNames);
-            Descriptors[1] = res[0];
-            Descriptors[2] = res[1];
-            Descriptors[3] = res[2];             
-            Descriptors[7] = res[3];             
-            
-            // AATS7p
-            MD = new AutocorrelationDescriptor();
-            DescNames = new ArrayList<>();
-            DescNames.add("AATS7p");
-            res = Padel.CalculateDescriptors(MD, DescNames);
-            Descriptors[4] = res[0];
-            
-            // TopoPSA
-            MD = new TPSADescriptor();
-            DescNames = new ArrayList<>();
-            DescNames.add("TopoPSA");
-            res = Padel.CalculateDescriptors(MD, DescNames);
-            Descriptors[5] = res[0];
-            
-            // GGI1
-            MD = new TopologicalChargeDescriptor();
-            DescNames = new ArrayList<>();
-            DescNames.add("GGI1");
-            res = Padel.CalculateDescriptors(MD, DescNames);
-            Descriptors[6] = res[0];
+            double[][] res = Padel.newRequest(CurMolecule.GetSMILES())
+                    .add("HalogenCountDescriptor", List.of("nF"))
+                    .add("EStateAtomTypeDescriptor", List.of("minHsOH", "gmax", "SsCl", "minsCl"))
+                    .add("AutocorrelationDescriptor", List.of("AATS7p"))
+                    .add("TPSADescriptor", List.of("TopoPSA"))
+                    .add("TopologicalChargeDescriptor", List.of("GGI1"))
+                    .calculate();
+            Descriptors[0] = res[0][0];     // nF
+            Descriptors[1] = res[1][0];     // minHsOH
+            Descriptors[2] = res[1][1];     // gmax
+            Descriptors[3] = res[1][2];     // SsCl
+            Descriptors[7] = res[1][3];     // minsCl
+            Descriptors[4] = res[2][0];     // AATS7p
+            Descriptors[5] = res[3][0];     // TopoPSA
+            Descriptors[6] = res[4][0];     // GGI1
             
         } catch (Throwable e) {
             return DESCRIPTORS_ERROR;

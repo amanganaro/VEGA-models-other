@@ -1,6 +1,5 @@
 package insilico.tpo_oberon.utils;
 
-import com.hp.hpl.jena.reasoner.rulesys.builtins.GE;
 import insilico.core.descriptor.DescriptorBlock;
 import insilico.core.exception.DescriptorNotFoundException;
 import insilico.core.exception.GenericFailureException;

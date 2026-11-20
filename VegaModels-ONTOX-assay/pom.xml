@@ -6,7 +6,7 @@
     <parent>
         <groupId>InSilico</groupId>
         <artifactId>VegaModels-Other</artifactId>
-        <version>1.1</version>
+        <version>1.2</version>
     </parent>
 
     <name>Assay (ONTOX)</name>

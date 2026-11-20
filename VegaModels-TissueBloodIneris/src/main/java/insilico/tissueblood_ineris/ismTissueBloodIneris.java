@@ -11,19 +11,13 @@ import insilico.core.model.InsilicoModel;
 import insilico.core.model.InsilicoModelOutput;
 import insilico.core.pmml.ModelGenericFromPMML;
 import insilico.core.tools.utils.ModelUtilities;
-import libpadeldescriptor.AutocorrelationDescriptor;
-import libpadeldescriptor.EStateAtomTypeDescriptor;
-import libpadeldescriptor.PaDELWeightedPathDescriptor;
 import org.dmg.pmml.FieldName;
-import org.openscience.cdk1.qsar.IMolecularDescriptor;
-import org.openscience.cdk1.qsar.descriptors.molecular.ALOGPDescriptor;
-import org.openscience.cdk1.qsar.descriptors.molecular.BCUTDescriptor;
-import org.openscience.cdk1.qsar.descriptors.molecular.XLogPDescriptor;
 import padeladapter.PadelInterface;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -135,61 +129,25 @@ public class ismTissueBloodIneris extends InsilicoModel {
             
             Descriptors = new double[DescriptorsSize];
             
-            IMolecularDescriptor MD;
-            ArrayList<String> DescNames;
-
-            Padel.SetSMILES(CurMolecule.GetSMILES());
-
-            // ALogp2
-            MD = new ALOGPDescriptor();
-            DescNames = new ArrayList<>();
-            DescNames.add("ALogp2");
-            double[] res = Padel.CalculateDescriptors(MD, DescNames);
-            Descriptors[0] = res[0]; 
-            
-            // ATSC1s, AATS8m
-            MD = new AutocorrelationDescriptor();
-            DescNames = new ArrayList<>();
-            DescNames.add("ATSC1s");
-            DescNames.add("AATS8m");
-            res = Padel.CalculateDescriptors(MD, DescNames);
-            Descriptors[1] = res[0];
-            Descriptors[6] = res[1];
-
-            // BCUTp.1l
-            MD = new BCUTDescriptor();
-            DescNames = new ArrayList<>();
-            DescNames.add("BCUTp-1l");
-            res = Padel.CalculateDescriptors(MD, DescNames);
-            Descriptors[2] = res[0];
-            
-            // minHBd, SssCH2, LipoaffinityIndex
-            MD = new EStateAtomTypeDescriptor();
-            DescNames = new ArrayList<>();
-            DescNames.add("minHBd");
-            DescNames.add("SssCH2");
-            DescNames.add("LipoaffinityIndex");
-            res = Padel.CalculateDescriptors(MD, DescNames);
-            Descriptors[3] = res[0];
-            Descriptors[8] = res[0];
-            Descriptors[7] = res[1];
-            Descriptors[9] = res[2];            
-
-            // XLogP
-            MD = new XLogPDescriptor();
-            DescNames = new ArrayList<>();
-            DescNames.add("XLogP");
-            res = Padel.CalculateDescriptors(MD, DescNames);
-            Descriptors[4] = res[0];
-            Descriptors[10] = res[0];
-            
-            // WTPT.5
-            MD = new PaDELWeightedPathDescriptor();
-            DescNames = new ArrayList<>();
-            DescNames.add("WTPT-5");
-            res = Padel.CalculateDescriptors(MD, DescNames);
-            Descriptors[5] = res[0];
-                        
+            double[][] res = Padel.newRequest(CurMolecule.GetSMILES())
+                    .add("ALOGPDescriptor", List.of("ALogp2"))
+                    .add("AutocorrelationDescriptor", List.of("ATSC1s", "AATS8m"))
+                    .add("BCUTDescriptor", List.of("BCUTp-1l"))
+                    .add("EStateAtomTypeDescriptor", List.of("minHBd", "SssCH2", "LipoaffinityIndex"))
+                    .add("XLogPDescriptor", List.of("XLogP"))
+                    .add("PaDELWeightedPathDescriptor", List.of("WTPT-5"))
+                    .calculate();
+            Descriptors[0] = res[0][0];     // ALogp2
+            Descriptors[1] = res[1][0];     // ATSC1s
+            Descriptors[6] = res[1][1];     // AATS8m
+            Descriptors[2] = res[2][0];     // BCUTp-1l
+            Descriptors[3] = res[3][0];     // minHBd
+            Descriptors[8] = res[3][0];     // minHBd
+            Descriptors[7] = res[3][1];     // SssCH2
+            Descriptors[9] = res[3][2];     // LipoaffinityIndex
+            Descriptors[4] = res[4][0];     // XLogP
+            Descriptors[10] = res[4][0];    // XLogP
+            Descriptors[5] = res[5][0];     // WTPT-5
             
         } catch (Throwable e) {
             return DESCRIPTORS_ERROR;
