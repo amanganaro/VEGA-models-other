@@ -3,7 +3,7 @@ package insilico.dio1.model.modelKNN;
 import insilico.core.exception.InitFailureException;
 import org.openscience.cdk.DefaultChemObjectBuilder;
 import org.openscience.cdk.exception.CDKException;
-import org.openscience.cdk.fingerprint.PubchemFingerprinter;
+import insilico.core.similarity.legacy.LegacyPubchemFingerprinter;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IChemObjectBuilder;
 import org.openscience.cdk.smiles.SmilesParser;
@@ -74,7 +74,7 @@ public class DioMolecularKNNClassifierFixed {
         }
     }
     
-    private PubchemFingerprinter fingerprinter;
+    private LegacyPubchemFingerprinter fingerprinter;
     private SmilesParser smilesParser;
     private List<MoleculeData> trainingData;
     private IChemObjectBuilder builder;
@@ -83,7 +83,7 @@ public class DioMolecularKNNClassifierFixed {
     public DioMolecularKNNClassifierFixed() throws InitFailureException {
         try {
             builder = DefaultChemObjectBuilder.getInstance();
-            fingerprinter = new PubchemFingerprinter(builder);
+            fingerprinter = new LegacyPubchemFingerprinter(builder);
             smilesParser = new SmilesParser(builder);
 
             URL DataSource = DioMolecularKNNClassifierFixed.class.getResource(TS_URL);

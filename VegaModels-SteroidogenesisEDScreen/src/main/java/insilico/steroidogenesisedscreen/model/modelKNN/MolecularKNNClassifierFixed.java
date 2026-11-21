@@ -2,7 +2,7 @@ package insilico.steroidogenesisedscreen.model.modelKNN;
 
 import org.openscience.cdk.DefaultChemObjectBuilder;
 import org.openscience.cdk.exception.CDKException;
-import org.openscience.cdk.fingerprint.PubchemFingerprinter;
+import insilico.core.similarity.legacy.LegacyPubchemFingerprinter;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IChemObjectBuilder;
 import org.openscience.cdk.smiles.SmilesParser;
@@ -81,7 +81,7 @@ public class MolecularKNNClassifierFixed {
 
     private final static String TRAINING_SET_PATH = "/data/stero_eds_TS.txt";
 
-    private final PubchemFingerprinter fingerprinter;
+    private final LegacyPubchemFingerprinter fingerprinter;
     private final SmilesParser smilesParser;
     private final IChemObjectBuilder builder;
     private List<MoleculeData> trainingData;
@@ -89,7 +89,7 @@ public class MolecularKNNClassifierFixed {
 
     public MolecularKNNClassifierFixed() throws Exception {
         builder = DefaultChemObjectBuilder.getInstance();
-        fingerprinter = new PubchemFingerprinter(builder);
+        fingerprinter = new LegacyPubchemFingerprinter(builder);
         smilesParser = new SmilesParser(builder);
         LoadTrainingSet(MolecularKNNClassifierFixed.class.getResource(TRAINING_SET_PATH));
     }
