@@ -16,8 +16,14 @@
             <artifactId>VegaPythonEnv-Global</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!-- Serialized CDDD model, no longer inside the Core; not optional, so it reaches VegaModels-All -->
+        <dependency>
+            <groupId>InSilico</groupId>
+            <artifactId>VegaResources-Cddd</artifactId>
+            <version>1.1.0</version>
+        </dependency>
     </dependencies>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <description>
         -
     </description>
