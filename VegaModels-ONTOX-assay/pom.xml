@@ -11,11 +11,6 @@
 
     <name>Assay (ONTOX)</name>
     <dependencies>
-        <dependency>
-            <groupId>InSilico</groupId>
-            <artifactId>VegaPythonEnv-Global</artifactId>
-            <version>1.0.0</version>
-        </dependency>
         <!-- Serialized CDDD model, no longer inside the Core; not optional, so it reaches VegaModels-All -->
         <dependency>
             <groupId>InSilico</groupId>
@@ -23,7 +18,7 @@
             <version>1.1.1</version>
         </dependency>
     </dependencies>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <description>
         -
     </description>
